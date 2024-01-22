@@ -1,20 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 
 export default function App() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.message}>
+      <Modal
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.message}>
+          <View style={styles.modal}>
+            <Text style={styles.text}>This is modal...</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.close}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.text}>Show modal message</Text>
+      </Pressable>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  message: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modal: {
+    backgroundColor: 'white',
+    padding: 100,
+    margin: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    shadowOpacity: 0.20,
+    shadowRadius: 9,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  close: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  text: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
